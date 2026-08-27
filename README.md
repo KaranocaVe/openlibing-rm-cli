@@ -37,8 +37,8 @@ npm run upstream:verify
 
 ### 浏览器辅助登录（推荐）
 
-1. 在 Tampermonkey 中安装
-   [`userscripts/hidevlab-copy-credentials.user.js`](userscripts/hidevlab-copy-credentials.user.js)。
+1. 在 Tampermonkey 中安装脚本：
+   [`hidevlab-copy-credentials.user.js`](https://raw.githubusercontent.com/KaranocaVe/openlibing-rm-cli/main/userscripts/hidevlab-copy-credentials.user.js)。
 2. 打开已登录的 `https://hidevlab.huawei.com/` 页面。
 3. 点击右下角的“复制 CLI 凭据”。脚本会从当前会话请求一次性
    `authTicket`，并将以下 JSON 放入剪贴板：
