@@ -75,7 +75,39 @@ npm run cli -- auth status --json
 npm run cli -- auth clear --yes
 ```
 
-凭据存放在用户级目录，不写入项目目录：
+### 多账号
+
+凭据文件可以保存多个命名账号。账号名只能包含字母、数字、点、下划线和
+连字符，长度不超过 64 个字符。首次安装时，旧版单账号文件会自动按
+`default` 账号读取，并在下一次写入时升级为多账号格式。
+
+```sh
+# 分别导入两个账号。导入 authTicket 的方式与上文相同
+pbpaste | npm run cli -- auth set --stdin --account personal
+pbpaste | npm run cli -- auth set --stdin --account work
+
+# 查看账号列表和当前账号（只显示元数据，不显示凭据）
+npm run cli -- auth list --json
+
+# 切换默认账号，之后不带 --account 的命令使用它
+npm run cli -- auth use work
+npm run cli -- env list
+
+# 单次操作显式选择账号，不改变当前账号
+npm run cli -- env list --account personal --json
+npm run cli -- auth status --account personal --json
+
+# 删除一个账号；删除当前账号后会自动选择剩余账号
+npm run cli -- auth clear work --yes
+
+# 删除全部账号
+npm run cli -- auth clear --all --yes
+```
+
+`auth set` 未指定 `--account` 时写入当前账号；尚未配置账号时使用
+`default`。`auth use` 只改变本地当前账号指针，不会调用 HidevLab。
+
+所有账号凭据存放在同一个用户级 JSON 文件中，不写入项目目录：
 
 - macOS：`~/Library/Application Support/openlibing-rm/credentials.json`
 - Linux：`$XDG_CONFIG_HOME/openlibing-rm/credentials.json`，未设置时使用
