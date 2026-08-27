@@ -3,7 +3,7 @@ import path from 'node:path';
 import { AuthenticationError, ValidationError } from './errors.js';
 import { repositoryRoot } from './repository.js';
 import { UserStorage } from './storage.js';
-import type { CredentialInput, Credentials, MachineInfo } from './types.js';
+import type { AccountName, CredentialInput, Credentials, MachineInfo } from './types.js';
 import { installVscodeRuntime } from './vscode-runtime.js';
 
 export interface HidevLabApiLike {
@@ -55,7 +55,8 @@ export class CliAuthBridge {
   constructor(
     private readonly storage: UserStorage,
     private readonly api: Pick<HidevLabApiLike, 'refreshAccessToken'>,
-    credentials: Credentials
+    credentials: Credentials,
+    private readonly accountName: AccountName = 'default'
   ) {
     this.credentials = credentials;
   }
@@ -65,7 +66,7 @@ export class CliAuthBridge {
   }
 
   async clearHidevLabAuth(): Promise<void> {
-    await this.storage.clearCredentials();
+    await this.storage.clearCredentials(this.accountName);
   }
 
   async handleHidevLabTokenExpired(): Promise<void> {
@@ -84,7 +85,7 @@ export class CliAuthBridge {
         token: sessionToken,
         refreshToken: this.credentials.refreshToken,
         accountId: this.credentials.accountId
-      });
+      }, this.accountName);
       return true;
     } catch {
       await this.clearHidevLabAuth();
@@ -123,19 +124,21 @@ function loadUpstreamModule(): LoadedUpstreamModule {
 function installAuthRuntime(
   storage: UserStorage,
   upstream: LoadedUpstreamModule,
-  credentials: Credentials
+  credentials: Credentials,
+  accountName: AccountName
 ): CliAuthBridge {
-  const auth = new CliAuthBridge(storage, upstream.HidevLabApi, credentials);
+  const auth = new CliAuthBridge(storage, upstream.HidevLabApi, credentials, accountName);
   (globalThis as typeof globalThis & { authService?: UpstreamAuthServiceLike }).authService = auth;
   upstream.HidevLabApi.initDebugMode();
   return auth;
 }
 
-export async function loadCoreRuntime(storage: UserStorage): Promise<CoreRuntime> {
-  const credentials = await storage.requireCredentials();
+export async function loadCoreRuntime(storage: UserStorage, accountName?: AccountName): Promise<CoreRuntime> {
+  const selectedAccount = await storage.resolveAccountName(accountName);
+  const credentials = await storage.requireCredentials(selectedAccount);
   installVscodeRuntime();
   const upstream = loadUpstreamModule();
-  const auth = installAuthRuntime(storage, upstream, credentials);
+  const auth = installAuthRuntime(storage, upstream, credentials, selectedAccount);
   return { api: upstream.HidevLabApi, auth };
 }
 

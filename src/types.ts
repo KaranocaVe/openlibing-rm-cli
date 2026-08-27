@@ -12,6 +12,8 @@ export interface CredentialInput {
   accountId?: string;
 }
 
+export type AccountName = string;
+
 /**
  * One-time credential copied from a logged-in HidevLab browser session.
  *
@@ -30,6 +32,20 @@ export interface Credentials extends CredentialInput {
   schemaVersion: 1;
   environment: 'prod';
   updatedAt: string;
+}
+
+export interface CredentialStore {
+  schemaVersion: 2;
+  currentAccount: AccountName | null;
+  accounts: Record<AccountName, Credentials>;
+}
+
+export interface AccountSummary {
+  name: AccountName;
+  accountId?: string;
+  hasRefreshToken: boolean;
+  updatedAt: string;
+  current: boolean;
 }
 
 export interface AppConfig {

@@ -6,7 +6,7 @@ import test from 'node:test';
 
 import nock from 'nock';
 
-import { exchangeAuthTicket } from '../src/core.js';
+import { CliAuthBridge, exchangeAuthTicket } from '../src/core.js';
 import { AuthenticationError } from '../src/errors.js';
 import { getStoragePaths } from '../src/paths.js';
 import { UserStorage } from '../src/storage.js';
@@ -83,6 +83,24 @@ test('failed authTicket exchange does not clear an existing credential file or e
     globalState.authService = previousAuthService;
     nock.cleanAll();
     nock.enableNetConnect();
+    await fs.rm(root, { recursive: true, force: true });
+  }
+});
+
+test('token expiry for one account removes only that account', async () => {
+  const { root, storage } = await temporaryStorage();
+  try {
+    await storage.writeCredentials({ token: 'alice-session' }, 'alice');
+    await storage.writeCredentials({ token: 'bob-session' }, 'bob');
+    const credentials = await storage.requireCredentials('bob');
+    const bridge = new CliAuthBridge(storage, { refreshAccessToken: async () => 'unused' }, credentials, 'bob');
+
+    await bridge.handleHidevLabTokenExpired();
+
+    assert.equal(await storage.readCredentials('bob'), null);
+    assert.equal((await storage.requireCredentials('alice')).token, 'alice-session');
+    assert.equal(await storage.currentAccountName(), 'alice');
+  } finally {
     await fs.rm(root, { recursive: true, force: true });
   }
 });

@@ -7,7 +7,7 @@ import { loadCoreRuntime, type HidevLabApiLike } from './core.js';
 import { ValidationError } from './errors.js';
 import { buildConnectionPlan, buildSyncPlan } from './plans.js';
 import { UserStorage } from './storage.js';
-import type { ConnectionPlan, MachineInfo, SyncPlan } from './types.js';
+import type { AccountName, ConnectionPlan, MachineInfo, SyncPlan } from './types.js';
 
 const createRequestSchema = z.object({
   computeType: z.coerce.number().int().positive(),
@@ -48,8 +48,8 @@ export class ResourceService {
     private readonly storage: UserStorage
   ) {}
 
-  static async create(storage = new UserStorage()): Promise<ResourceService> {
-    const runtime = await loadCoreRuntime(storage);
+  static async create(storage = new UserStorage(), accountName?: AccountName): Promise<ResourceService> {
+    const runtime = await loadCoreRuntime(storage, accountName);
     return new ResourceService(runtime.api, storage);
   }
 

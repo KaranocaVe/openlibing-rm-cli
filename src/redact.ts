@@ -1,5 +1,9 @@
 const SENSITIVE_KEY = /token|password|secret|cookie|authorization|session(?:id)?|refresh/i;
 
+function isSafeMetadata(key: string, value: unknown): boolean {
+  return /^(has|is)[A-Z_]/i.test(key) && typeof value === 'boolean';
+}
+
 export function redactValue(value: unknown): unknown {
   if (Array.isArray(value)) {
     return value.map((item) => redactValue(item));
@@ -8,7 +12,9 @@ export function redactValue(value: unknown): unknown {
   if (value !== null && typeof value === 'object') {
     const redacted: Record<string, unknown> = {};
     for (const [key, nested] of Object.entries(value as Record<string, unknown>)) {
-      redacted[key] = SENSITIVE_KEY.test(key) ? '[REDACTED]' : redactValue(nested);
+      redacted[key] = SENSITIVE_KEY.test(key) && !isSafeMetadata(key, nested)
+        ? '[REDACTED]'
+        : redactValue(nested);
     }
     return redacted;
   }

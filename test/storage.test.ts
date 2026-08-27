@@ -64,3 +64,57 @@ test('credential input accepts a browser authTicket import without treating it a
   });
   assert.throws(() => parseCredentialInput({ authTicket: '' }), /authTicket must not be empty/);
 });
+
+test('storage supports multiple named accounts and keeps the current account explicit', async () => {
+  const root = await temporaryDirectory();
+  try {
+    const storage = new UserStorage(getStoragePaths('linux', root, {}));
+    await storage.writeCredentials({ token: 'alice-session', refreshToken: 'alice-refresh', accountId: 'alice-id' }, 'alice');
+    await storage.writeCredentials({ token: 'bob-session', refreshToken: 'bob-refresh', accountId: 'bob-id' }, 'bob');
+
+    assert.equal(await storage.currentAccountName(), 'alice');
+    assert.equal((await storage.requireCredentials()).token, 'alice-session');
+    assert.equal((await storage.requireCredentials('bob')).token, 'bob-session');
+    assert.deepEqual((await storage.listAccounts()).map((account) => ({ name: account.name, current: account.current })), [
+      { name: 'alice', current: true },
+      { name: 'bob', current: false }
+    ]);
+
+    await storage.setCurrentAccount('bob');
+    assert.equal((await storage.requireCredentials()).token, 'bob-session');
+    await storage.clearCredentials('bob');
+    assert.equal(await storage.currentAccountName(), 'alice');
+    assert.equal((await storage.requireCredentials()).token, 'alice-session');
+  } finally {
+    await fs.rm(root, { recursive: true, force: true });
+  }
+});
+
+test('legacy single-account credentials migrate transparently to the default account', async () => {
+  const root = await temporaryDirectory();
+  try {
+    const storage = new UserStorage(getStoragePaths('linux', root, {}));
+    await fs.mkdir(storage.paths.directory, { recursive: true });
+    await fs.writeFile(storage.paths.credentialsFile, JSON.stringify({
+      schemaVersion: 1,
+      environment: 'prod',
+      token: 'legacy-session',
+      updatedAt: new Date().toISOString()
+    }));
+
+    assert.equal(await storage.currentAccountName(), 'default');
+    assert.equal((await storage.requireCredentials()).token, 'legacy-session');
+    await storage.writeCredentials({ token: 'new-session' }, 'secondary');
+    const migrated = JSON.parse(await fs.readFile(storage.paths.credentialsFile, 'utf8')) as {
+      schemaVersion: number;
+      currentAccount: string;
+      accounts: Record<string, { token: string }>;
+    };
+    assert.equal(migrated.schemaVersion, 2);
+    assert.equal(migrated.currentAccount, 'default');
+    assert.equal(migrated.accounts.default.token, 'legacy-session');
+    assert.equal(migrated.accounts.secondary.token, 'new-session');
+  } finally {
+    await fs.rm(root, { recursive: true, force: true });
+  }
+});
