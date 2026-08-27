@@ -1,0 +1,31 @@
+{
+  "name": "openlibing-rm-cli",
+  "version": "0.1.0",
+  "private": true,
+  "description": "A command-line wrapper for the openLiBing ResourceManager runtime.",
+  "license": "UNLICENSED",
+  "engines": {
+    "node": ">=20"
+  },
+  "scripts": {
+    "build": "tsc -p tsconfig.json",
+    "cli": "tsx src/cli.ts",
+    "test": "npm run build && node --test dist/test/*.test.js",
+    "upstream:sync": "tsx scripts/sync-upstream.ts",
+    "upstream:verify": "tsx scripts/verify-upstream.ts"
+  },
+  "dependencies": {
+    "adm-zip": "^0.6.0",
+    "axios": "^1.6.0",
+    "commander": "^12.1.0",
+    "vscode": "file:packages/vscode-compat",
+    "zod": "^3.23.8"
+  },
+  "devDependencies": {
+    "@types/adm-zip": "^0.5.7",
+    "@types/node": "^20.17.0",
+    "nock": "^14.0.17",
+    "tsx": "^4.19.2",
+    "typescript": "^5.7.2"
+  }
+}

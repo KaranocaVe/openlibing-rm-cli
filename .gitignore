@@ -1,0 +1,7 @@
+reference/
+node_modules/
+dist/
+.DS_Store
+vendor/.sync-*/
+vendor/.previous-*/
+.upstream.lock.*.tmp

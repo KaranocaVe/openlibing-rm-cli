@@ -1,0 +1,6 @@
+{
+  "name": "vscode",
+  "version": "0.0.0-openlibing-rm",
+  "private": true,
+  "main": "index.js"
+}

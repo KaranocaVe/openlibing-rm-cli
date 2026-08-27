@@ -1,0 +1,43 @@
+{
+  "schemaVersion": 1,
+  "extension": {
+    "id": "openlibing.ResourceManager",
+    "publisher": "openlibing",
+    "name": "ResourceManager"
+  },
+  "version": "0.0.34",
+  "galleryApi": "https://marketplace.visualstudio.com/_apis/public/gallery/extensionquery",
+  "vsix": {
+    "url": "https://openlibing.gallerycdn.vsassets.io/extensions/openlibing/resourcemanager/0.0.34/1786324730710/Microsoft.VisualStudio.Services.VSIXPackage",
+    "sha256": "5db045b12adb6f6ca42a50d42bf3f00048d9a58997a3032e89b1fb3541b421f9",
+    "size": 35478671
+  },
+  "package": {
+    "name": "ResourceManager",
+    "version": "0.0.34",
+    "license": "MIT",
+    "repository": "https://gitcode.com/openlibing/openlibing-ide-plugin.git"
+  },
+  "coreFiles": [
+    {
+      "path": "out/api/HidevLabApi.js",
+      "sha256": "5bf5855bad56a13b1c846199b46e163422d4caf704849206762d13b7c51f91a7"
+    },
+    {
+      "path": "out/utils/HidevLabHttpClient.js",
+      "sha256": "9fa791ec0e33b2e498b8c457ee37e22760dab81d2eaf975628e5e39dec4f583c"
+    },
+    {
+      "path": "out/utils/Logger.js",
+      "sha256": "75a8e6c10de3d42cbe8b82cf409ed26e88889a6ee9499ef1d984e44228d29ad7"
+    },
+    {
+      "path": "package.json",
+      "sha256": "9a438d1a8c6b01057dff386ecf187c65f241bb06db27622aea489fc9e7e3618a"
+    },
+    {
+      "path": "UPSTREAM.md",
+      "sha256": "ddb22ee45bad657ea050e9548d50c9bc9b649b94f08599937487fdacbf38200c"
+    }
+  ]
+}

@@ -1,0 +1,556 @@
+{
+	"name": "ResourceManager",
+	"displayName": "openLiBing ResourceManager",
+	"description": "All-in-one Remote Development Environment",
+	"version": "0.0.34",
+	"author": "openlibing",
+	"license": "MIT",
+	"icon": "static/icon.png",
+	"repository": {
+		"type": "git",
+		"url": "https://gitcode.com/openlibing/openlibing-ide-plugin.git"
+	},
+	"publisher": "openLiBing",
+	"engines": {
+		"vscode": "^1.60.0"
+	},
+	"categories": [
+		"Other"
+	],
+	"activationEvents": [
+		"onStartupFinished"
+	],
+	"main": "./out/extension.js",
+	"contributes": {
+		"viewsContainers": {
+			"activitybar": [
+				{
+					"id": "openlibing",
+					"title": "openLiBing ResourceManage",
+					"icon": "static/icon.png"
+				}
+			]
+		},
+		"views": {
+			"openlibing": [
+				{
+					"id": "resourceEnvironment",
+					"name": "资源环境",
+					"type": "webview",
+					"icon": "$(server)"
+				}
+			]
+		},
+		"commands": [
+			{
+				"command": "resourceEnvironment.refresh",
+				"title": "刷新",
+				"icon": "$(refresh)"
+			},
+			{
+				"command": "resourceEnvironment.addDevice",
+				"title": "新增远端设备",
+				"icon": "$(add)"
+			},
+			{
+				"command": "resourceEnvironment.delete",
+				"title": "删除",
+				"icon": "$(trash)"
+			},
+			{
+				"command": "resourceEnvironment.startHidevLab",
+				"title": "开机",
+				"icon": "$(run)"
+			},
+			{
+				"command": "resourceEnvironment.stopHidevLab",
+				"title": "关机",
+				"icon": "$(debug-stop)"
+			},
+			{
+				"command": "resourceEnvironment.deleteHidevLab",
+				"title": "删除 HidevLab 环境",
+				"icon": "$(trash)"
+			},
+			{
+				"command": "resourceEnvironment.remoteSSH",
+				"title": "打开远程窗口",
+				"icon": "$(remote)"
+			},
+			{
+				"command": "resourceEnvironment.edit",
+				"title": "编辑",
+				"icon": "$(edit)"
+			},
+			{
+				"command": "remoteTasks.add",
+				"title": "添加",
+				"icon": "$(add)"
+			},
+			{
+				"command": "remoteTasks.run",
+				"title": "运行",
+				"icon": "$(run)"
+			},
+			{
+				"command": "remoteTasks.stop",
+				"title": "停止",
+				"icon": "$(debug-stop)"
+			},
+			{
+				"command": "remoteTasks.edit",
+				"title": "编辑",
+				"icon": "$(edit)"
+			},
+			{
+				"command": "remoteTasks.delete",
+				"title": "删除",
+				"icon": "$(trash)"
+			},
+			{
+				"command": "remoteTasks.saveFromWebview",
+				"title": "保存任务",
+				"icon": "$(save)"
+			},
+			{
+				"command": "remoteTasks.addSubTask",
+				"title": "添加子任务",
+				"icon": "$(add)"
+			},
+			{
+				"command": "remoteTasks.selectAll",
+				"title": "全选任务",
+				"icon": "$(check-all)"
+			},
+			{
+				"command": "remoteTasks.clearSelection",
+				"title": "清除选择",
+				"icon": "$(clear-all)"
+			},
+			{
+				"command": "remoteTasks.runChecked",
+				"title": "运行选中任务",
+				"icon": "$(run-all)"
+			},
+			{
+				"command": "remoteTasks.download",
+				"title": "下载",
+				"icon": "$(cloud-download)"
+			},
+			{
+				"command": "remoteTasks.upload",
+				"title": "上板",
+				"icon": "$(rocket)"
+			},
+			{
+				"command": "remoteTasks.showWelcome",
+				"title": "显示欢迎页面",
+				"icon": "$(home)"
+			},
+			{
+				"command": "remoteTasks.clearBuildLogs",
+				"title": "清除编译日志",
+				"icon": "$(discard)"
+			},
+			{
+				"command": "testCases.add",
+				"title": "添加",
+				"icon": "$(add)"
+			},
+			{
+				"command": "testCases.refresh",
+				"title": "刷新",
+				"icon": "$(refresh)"
+			},
+			{
+				"command": "testCases.search",
+				"title": "搜索用例",
+				"icon": "$(search)"
+			},
+			{
+				"command": "testCases.clearSearch",
+				"title": "清除搜索",
+				"icon": "$(clear-all)"
+			},
+			{
+				"command": "testCases.edit",
+				"title": "编辑",
+				"icon": "$(edit)"
+			},
+			{
+				"command": "testCases.delete",
+				"title": "删除",
+				"icon": "$(trash)"
+			},
+			{
+				"command": "testCases.deleteCase",
+				"title": "删除用例",
+				"icon": "$(trash)"
+			},
+			{
+				"command": "testCases.fetchTestNodes",
+				"title": "获取所有用例节点",
+				"icon": "$(symbol-method)"
+			},
+			{
+				"command": "testCases.runSelected",
+				"title": "运行选中的测试",
+				"icon": "$(run-all)"
+			},
+			{
+				"command": "testCases.selectAll",
+				"title": "全选测试",
+				"icon": "$(checklist)"
+			},
+			{
+				"command": "testCases.runTest",
+				"title": "运行测试",
+				"icon": "$(run)"
+			},
+			{
+				"command": "testCases.debugTest",
+				"title": "调试测试",
+				"icon": "$(bug)"
+			},
+			{
+				"command": "openlibing.login",
+				"title": "登录",
+				"icon": "$(sign-in)"
+			},
+			{
+				"command": "openlibing.logout",
+				"title": "退出登录",
+				"icon": "$(sign-out)"
+			},
+			{
+				"command": "openlibing.isLoggedIn",
+				"title": "检查登录状态"
+			},
+			{
+				"command": "openlibing.showWelcome",
+				"title": "插件介绍",
+				"icon": "$(info)"
+			},
+			{
+				"command": "openlibing.showUserInfo",
+				"title": "用户信息",
+				"icon": "$(account)"
+			},
+			{
+				"command": "openlibing.startDevelopment",
+				"title": "开启开发之旅",
+				"icon": "$(rocket)"
+			},
+			{
+				"command": "openlibing.focusResourceEnvironment",
+				"title": "打开资源环境",
+				"icon": "$(server)"
+			},
+			{
+				"command": "openlibing.focusRemoteTasks",
+				"title": "打开远程任务",
+				"icon": "$(list-tree)"
+			},
+			{
+				"command": "openlibing.focusTestCases",
+				"title": "打开测试用例",
+				"icon": "$(beaker)"
+			},
+			{
+				"command": "openlibing.copyAccountId",
+				"title": "复制用户ID",
+				"icon": "$(copy)"
+			},
+			{
+				"command": "openlibing.installBrowser",
+				"title": "安装浏览器组件（用于网页爬虫）",
+				"icon": "$(cloud-download)"
+			},
+			{
+				"command": "resourceEnvironment.syncCode",
+				"title": "同步代码",
+				"icon": "$(sync)"
+			},
+			{
+				"command": "openlibing.setDefaultWorkingDirectory",
+				"title": "设置默认远程工作目录",
+				"icon": "$(folder)"
+			}
+		],
+		"menus": {
+			"view/title": [
+				{
+					"command": "resourceEnvironment.refresh",
+					"when": "view == resourceEnvironment",
+					"group": "navigation@1"
+				},
+				{
+					"command": "remoteTasks.add",
+					"when": "view == remoteTasks",
+					"group": "navigation"
+				},
+				{
+					"command": "remoteTasks.selectAll",
+					"when": "view == remoteTasks",
+					"group": "navigation@1"
+				},
+				{
+					"command": "remoteTasks.clearSelection",
+					"when": "view == remoteTasks",
+					"group": "navigation@2"
+				},
+				{
+					"command": "remoteTasks.runChecked",
+					"when": "view == remoteTasks",
+					"group": "navigation@3"
+				},
+				{
+					"command": "remoteTasks.clearBuildLogs",
+					"when": "view == remoteTasks",
+					"group": "navigation@4"
+				},
+				{
+					"command": "testCases.add",
+					"when": "view == testCases",
+					"group": "navigation@1"
+				},
+				{
+					"command": "testCases.refresh",
+					"when": "view == testCases",
+					"group": "navigation@2"
+				},
+				{
+					"command": "testCases.search",
+					"when": "view == testCases",
+					"group": "navigation@3"
+				}
+			],
+			"view/item/context": [
+				{
+					"command": "resourceEnvironment.remoteSSH",
+					"when": "view == resourceEnvironment && viewItem == device-node",
+					"group": "inline@1"
+				},
+				{
+					"command": "resourceEnvironment.edit",
+					"when": "view == resourceEnvironment && viewItem == device-node",
+					"group": "inline@2"
+				},
+				{
+					"command": "resourceEnvironment.delete",
+					"when": "view == resourceEnvironment && viewItem == device-node",
+					"group": "inline@3"
+				},
+				{
+					"command": "resourceEnvironment.remoteSSH",
+					"when": "view == resourceEnvironment && viewItem == device-lab-running",
+					"group": "inline@1"
+				},
+				{
+					"command": "resourceEnvironment.syncCode",
+					"when": "view == resourceEnvironment && viewItem == device-lab-running",
+					"group": "inline@2"
+				},
+				{
+					"command": "resourceEnvironment.startHidevLab",
+					"when": "view == resourceEnvironment && viewItem == device-lab-ready",
+					"group": "inline@3"
+				},
+				{
+					"command": "resourceEnvironment.stopHidevLab",
+					"when": "view == resourceEnvironment && viewItem == device-lab-running",
+					"group": "inline@3"
+				},
+				{
+					"command": "resourceEnvironment.deleteHidevLab",
+					"when": "view == resourceEnvironment && viewItem =~ /^device-lab/ && viewItem != device-lab-running",
+					"group": "inline@4"
+				},
+				{
+					"command": "remoteTasks.run",
+					"when": "view == remoteTasks && viewItem =~ /^task/",
+					"group": "inline@1"
+				},
+				{
+					"command": "remoteTasks.stop",
+					"when": "view == remoteTasks && viewItem =~ /^task.*-running/",
+					"group": "inline@1"
+				},
+				{
+					"command": "remoteTasks.download",
+					"when": "view == remoteTasks && viewItem =~ /^task/",
+					"group": "inline@2"
+				},
+				{
+					"command": "remoteTasks.upload",
+					"when": "view == remoteTasks && viewItem =~ /^task.*\\+upload/",
+					"group": "inline@3"
+				},
+				{
+					"command": "remoteTasks.edit",
+					"when": "view == remoteTasks && viewItem =~ /^task/",
+					"group": "inline@4"
+				},
+				{
+					"command": "remoteTasks.delete",
+					"when": "view == remoteTasks && viewItem =~ /^task/",
+					"group": "inline@5"
+				},
+				{
+					"command": "remoteTasks.run",
+					"when": "view == remoteTasks && viewItem =~ /^subTask/",
+					"group": "inline@1"
+				},
+				{
+					"command": "remoteTasks.stop",
+					"when": "view == remoteTasks && viewItem =~ /^subTask.*-running/",
+					"group": "inline@1"
+				},
+				{
+					"command": "remoteTasks.download",
+					"when": "view == remoteTasks && viewItem =~ /^subTask/",
+					"group": "inline@2"
+				},
+				{
+					"command": "remoteTasks.upload",
+					"when": "view == remoteTasks && viewItem =~ /^subTask.*\\+upload/",
+					"group": "inline@3"
+				},
+				{
+					"command": "remoteTasks.edit",
+					"when": "view == remoteTasks && viewItem =~ /^subTask/",
+					"group": "inline@4"
+				},
+				{
+					"command": "remoteTasks.delete",
+					"when": "view == remoteTasks && viewItem =~ /^subTask/",
+					"group": "inline@5"
+				},
+				{
+					"command": "remoteTasks.addSubTask",
+					"when": "view == remoteTasks && (viewItem == taskSuit || viewItem == taskSuit-running)",
+					"group": "inline@1"
+				},
+				{
+					"command": "remoteTasks.download",
+					"when": "view == remoteTasks && (viewItem == taskSuit || viewItem == taskSuit-running)",
+					"group": "inline@2"
+				},
+				{
+					"command": "remoteTasks.edit",
+					"when": "view == remoteTasks && (viewItem == taskSuit || viewItem == taskSuit-running)",
+					"group": "inline@3"
+				},
+				{
+					"command": "remoteTasks.delete",
+					"when": "view == remoteTasks && (viewItem == taskSuit || viewItem == taskSuit-running)",
+					"group": "inline@4"
+				},
+				{
+					"command": "testCases.edit",
+					"when": "view == testCases && (viewItem == testCase || viewItem == programCase)",
+					"group": "inline@1"
+				},
+				{
+					"command": "testCases.deleteCase",
+					"when": "view == testCases && (viewItem == testCase || viewItem == programCase)",
+					"group": "inline@2"
+				},
+				{
+					"command": "testCases.fetchTestNodes",
+					"when": "view == testCases && viewItem == testCase",
+					"group": "inline@3"
+				},
+				{
+					"command": "testCases.selectAll",
+					"when": "view == testCases && viewItem == testSuite",
+					"group": "inline@1"
+				},
+				{
+					"command": "testCases.runSelected",
+					"when": "view == testCases && viewItem == testSuite",
+					"group": "inline@2"
+				},
+				{
+					"command": "testCases.runTest",
+					"when": "view == testCases && viewItem == testNode",
+					"group": "inline@1"
+				},
+				{
+					"command": "testCases.debugTest",
+					"when": "view == testCases && viewItem == testNode",
+					"group": "inline@2"
+				},
+				{
+					"command": "testCases.runTest",
+					"when": "view == testCases && viewItem == programCase",
+					"group": "inline@1"
+				},
+				{
+					"command": "testCases.debugTest",
+					"when": "view == testCases && viewItem == programCase",
+					"group": "inline@2"
+				},
+				{
+					"command": "testCases.delete",
+					"when": "view == testCases && viewItem == testDirectory",
+					"group": "inline@2"
+				}
+			]
+		},
+		"configuration": {
+			"title": "openLiBing ResourceManage",
+			"properties": {
+				"openlibing.terminal.inheritPID1Environment": {
+					"type": "boolean",
+					"default": true,
+					"description": "登录远程终端或执行远程任务时，是否自动继承 PID1 进程的环境变量（适用于容器环境）"
+				},
+				"openlibing.remote.defaultWorkingDirectory": {
+					"type": "string",
+					"description": "仅当设备未返回 workingDir 时作为兜底路径。同步和打开 Remote SSH 优先使用设备的 workingDir。"
+				},
+				"openlibing.sync.useSftp": {
+					"type": "boolean",
+					"default": true,
+					"description": "是否使用 SFTP 进行代码同步。默认使用 SFTP（兼容性更好、更快），关闭后使用 rsync。"
+				},
+				"openlibing.enableDebugLog": {
+					"type": "boolean",
+					"default": false,
+					"description": "是否输出调试日志（HTTP/DB/轮询细节）。默认关闭，仅保留重要 INFO/WARNING/ERROR。"
+				}
+			}
+		}
+	},
+	"scripts": {
+		"vscode:prepublish": "node -e \"console.log('skip compile: packaging installed out/')\"",
+		"compile": "tsc -p ./ && node scripts/copy-tools.js",
+		"copy:tools": "node scripts/copy-tools.js",
+		"unzip:tools": "node scripts/unzip-tools.js",
+		"watch": "tsc -watch -p ./",
+		"pretest": "npm run compile",
+		"build": "npm run compile",
+		"package": "npx --yes @vscode/vsce@2.22.0 package --no-yarn --skip-license"
+	},
+	"dependencies": {
+		"axios": "^1.6.0",
+		"cheerio": "^1.0.0-rc.12",
+		"json-bigint": "^1.0.0",
+		"level": "^8.0.0",
+		"playwright-chromium": "^1.40.0",
+		"playwright-core": "^1.40.0",
+		"uuid": "^9.0.0",
+		"xml2js": "^0.6.2"
+	},
+	"devDependencies": {
+		"@types/json-bigint": "^1.0.4",
+		"@types/node": "^16.18.126",
+		"@types/uuid": "^9.0.0",
+		"@types/vscode": "^1.60.0",
+		"@types/xml2js": "^0.4.14",
+		"@vscode/vsce": "^2.22.0",
+		"concurrently": "^8.2.0",
+		"typescript": "^4.7.4"
+	}
+}
