@@ -15,7 +15,7 @@
     "upstream:verify": "tsx scripts/verify-upstream.ts"
   },
   "dependencies": {
-    "adm-zip": "^0.6.0",
+    "adm-zip": "^0.6.1",
     "axios": "^1.6.0",
     "commander": "^12.1.0",
     "vscode": "file:packages/vscode-compat",
